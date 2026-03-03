@@ -1,26 +1,13 @@
 "use client";
 
-import { Globe, Users } from "lucide-react";
+import { Users } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
-import { useState } from "react";
-
-const languages = [
-  { code: "EN", label: "English" },
-  { code: "TH", label: "ไทย" },
-];
+import { LanguageSwitcher } from "./ui/language-switcher";
 
 export function Header() {
   const pathname = usePathname();
-  const [language, setLanguage] = useState("EN");
-
   const isAuthPage = pathname === "/login" || pathname === "/register";
 
   return (
@@ -68,27 +55,7 @@ export function Header() {
             </nav>
           )}
 
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="outline" size="sm" className="gap-1.5">
-                <Globe className="size-4" />
-                <span className="text-xs font-medium">{language}</span>
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="min-w-[120px]">
-              {languages.map((lang) => (
-                <DropdownMenuItem
-                  key={lang.code}
-                  onClick={() => setLanguage(lang.code)}
-                  className={
-                    language === lang.code ? "bg-accent font-medium" : ""
-                  }
-                >
-                  {lang.label}
-                </DropdownMenuItem>
-              ))}
-            </DropdownMenuContent>
-          </DropdownMenu>
+          <LanguageSwitcher />
         </div>
       </div>
     </header>

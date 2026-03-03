@@ -1,8 +1,11 @@
 import { Header } from "@/components/header";
 import { UserTable } from "@/components/user-table";
 import { Users } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 export default function DashboardPage() {
+  const t = useTranslations("dashboard");
+
   return (
     <div className="flex min-h-screen flex-col bg-background">
       <Header />
@@ -12,12 +15,10 @@ export default function DashboardPage() {
             <div className="flex items-center gap-2">
               <Users className="size-5 text-primary" />
               <h1 className="text-xl font-semibold tracking-tight text-foreground sm:text-2xl">
-                User Management
+                {t("title")}
               </h1>
             </div>
-            <p className="text-sm text-muted-foreground">
-              View, edit, and manage all registered users in one place.
-            </p>
+            <p className="text-sm text-muted-foreground">{t("description")}</p>
           </div>
           <UserTable />
         </div>
