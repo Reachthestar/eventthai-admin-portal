@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages } from "next-intl/server";
+import { QueryProvider } from "@/providers/query-provider";
 import "../globals.css";
 
 export const metadata: Metadata = {
@@ -28,7 +29,7 @@ export default async function LocaleLayout({
     <html lang={locale}>
       <body className="font-sans antialiased" suppressHydrationWarning>
         <NextIntlClientProvider messages={messages} locale={locale}>
-          {children}
+          <QueryProvider>{children}</QueryProvider>
         </NextIntlClientProvider>
       </body>
     </html>
