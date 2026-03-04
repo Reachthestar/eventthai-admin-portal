@@ -1,3 +1,5 @@
+"use client";
+
 import { Header } from "@/components/header";
 import { UserTable } from "@/components/user-table";
 import { Users } from "lucide-react";
