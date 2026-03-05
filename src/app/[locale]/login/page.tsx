@@ -20,19 +20,31 @@ import { toast } from "sonner";
 import { useAuthStore } from "@/stores/auth-store";
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { getLoginSchema, LoginSchema } from "@/schemas/login-schema";
 
 export default function LoginPage() {
   const t = useTranslations("auth.login");
   const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
 
-  const { mutateAsync: loginMutation } = useLogin();
+  const { mutateAsync: loginMutation, isPending } = useLogin();
   const { login } = useAuthStore();
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const {
+    register: loginForm,
+    handleSubmit: loginFormSubmit,
+    formState: { errors },
+  } = useForm<LoginSchema>({
+    resolver: zodResolver(getLoginSchema(t)),
+    defaultValues: {
+      email: "",
+      password: "",
+    },
+  });
+
+  const onSubmit = async ({ email, password }: LoginSchema) => {
     try {
       const res = await loginMutation({ email, password });
       login(res.token);
@@ -68,7 +80,7 @@ export default function LoginPage() {
           </CardHeader>
 
           <CardContent className="pt-4">
-            <form onSubmit={handleSubmit} className="grid gap-5">
+            <form onSubmit={loginFormSubmit(onSubmit)} className="grid gap-5">
               {/* Email field */}
               <div className="grid gap-2">
                 <Label
@@ -83,13 +95,15 @@ export default function LoginPage() {
                     id="login-email"
                     type="email"
                     placeholder="name@example.com"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
+                    {...loginForm("email")}
                     autoComplete="email"
                     required
                     className="pl-10"
                   />
                 </div>
+                {errors.email && (
+                  <p className="text-red-500 text-sm">{errors.email.message}</p>
+                )}
               </div>
 
               {/* Password field */}
@@ -106,8 +120,7 @@ export default function LoginPage() {
                     id="login-password"
                     type={showPassword ? "text" : "password"}
                     placeholder={t("enterYourPassword")}
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
+                    {...loginForm("password")}
                     autoComplete="current-password"
                     required
                     className="pl-10 pr-10"
@@ -115,6 +128,7 @@ export default function LoginPage() {
                   <button
                     type="button"
                     onClick={() => setShowPassword((v) => !v)}
+                    disabled={isPending}
                     className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground transition-colors hover:text-foreground"
                     aria-label={
                       showPassword ? "Hide password" : "Show password"
@@ -127,6 +141,11 @@ export default function LoginPage() {
                     )}
                   </button>
                 </div>
+                {errors.password && (
+                  <p className="text-red-500 text-sm">
+                    {errors.password.message}
+                  </p>
+                )}
               </div>
 
               {/* Remember me */}

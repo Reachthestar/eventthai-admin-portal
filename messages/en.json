@@ -17,7 +17,11 @@
       "register": "Register",
       "registerDescription": "Don't have an account?",
       "success": "Login successful",
-      "error": "Login failed"
+      "error": "Login failed",
+      "validation": {
+        "invalidEmail": "Invalid email address",
+        "passwordMin": "Password must be at least 6 characters"
+      }
     },
     "register": {
       "title": "Sign Up",
