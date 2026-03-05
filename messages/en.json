@@ -78,7 +78,17 @@
     "email": "Email",
     "emailPlaceholder": "Enter email address",
     "cancel": "Cancel",
-    "save": "Save Changes"
+    "save": "Save Changes",
+    "validation": {
+      "firstNameRequired": "First name is required",
+      "invalidName": "Invalid name",
+      "lastNameRequired": "Last name is required",
+      "invalidLastName": "Invalid last name",
+      "emailRequired": "Email is required",
+      "invalidEmail": "Invalid email address",
+      "firstNameMax": "First name must be at most 50 characters",
+      "lastNameMax": "Last name must be at most 50 characters"
+    }
   },
   "deleteUserModal": {
     "title": "Delete User",

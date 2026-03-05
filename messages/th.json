@@ -79,7 +79,17 @@
     "email": "อีเมล",
     "emailPlaceholder": "กรอกที่อยู่อีเมล",
     "cancel": "ยกเลิก",
-    "save": "บันทึกข้อมูล"
+    "save": "บันทึกข้อมูล",
+    "validation": {
+      "firstNameRequired": "กรุณากรอกชื่อ",
+      "invalidName": "ชื่อไม่ถูกต้อง",
+      "lastNameRequired": "กรุณากรอกนามสกุล",
+      "invalidLastName": "นามสกุลไม่ถูกต้อง",
+      "emailRequired": "กรุณากรอกอีเมล",
+      "invalidEmail": "รูปแบบอีเมลไม่ถูกต้อง",
+      "firstNameMax": "ชื่อต้องไม่เกิน 50 ตัวอักษร",
+      "lastNameMax": "นามสกุลต้องไม่เกิน 50 ตัวอักษร"
+    }
   },
   "deleteUserModal": {
     "title": "ลบข้อมูลผู้ใช้",
