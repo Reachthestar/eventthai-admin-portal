@@ -1,14 +1,23 @@
 "use client";
 
 import { Users } from "lucide-react";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { Link, usePathname } from "@/i18n/navigation";
 import { Button } from "@/components/ui/button";
 import { LanguageSwitcher } from "./ui/language-switcher";
+import { useAuthStore } from "@/stores/auth-store";
+import { toast } from "sonner";
+import { useTranslations } from "next-intl";
 
 export function Header() {
   const pathname = usePathname();
   const isAuthPage = pathname === "/login" || pathname === "/register";
+  const { logout } = useAuthStore();
+  const t = useTranslations();
+
+  const handleLogout = () => {
+    logout();
+    toast.success(t("auth.logout.logoutSuccess"));
+  };
 
   return (
     <header className="sticky top-0 z-40 w-full border-b border-border bg-card">
@@ -18,7 +27,7 @@ export function Header() {
             <Users className="size-4 text-primary-foreground" />
           </div>
           <span className="text-base font-semibold text-foreground">
-            UserHub
+            {t("header.brandName")}
           </span>
         </Link>
 
@@ -31,27 +40,13 @@ export function Header() {
                   size="sm"
                   className="text-sm"
                 >
-                  Dashboard
+                  {t("header.dashboard")}
                 </Button>
               </Link>
-              <Link href="/login">
-                <Button
-                  variant={pathname === "/login" ? "secondary" : "ghost"}
-                  size="sm"
-                  className="text-sm"
-                >
-                  Login
-                </Button>
-              </Link>
-              <Link href="/register">
-                <Button
-                  variant={pathname === "/register" ? "secondary" : "ghost"}
-                  size="sm"
-                  className="text-sm"
-                >
-                  Register
-                </Button>
-              </Link>
+
+              <Button size="sm" className="text-sm" onClick={handleLogout}>
+                {t("auth.logout.logoutButton")}
+              </Button>
             </nav>
           )}
 
