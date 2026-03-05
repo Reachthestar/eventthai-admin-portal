@@ -20,6 +20,8 @@ import {
   getEditUserSchema,
   EditUserSchema,
 } from "@/schemas/edite-user-validation";
+import { toast } from "sonner";
+import { isAxiosError } from "axios";
 
 interface EditUserModalProps {
   user: User | null;
@@ -70,16 +72,27 @@ export function EditUserModal({
     onOpenChange(isOpen);
   };
 
-  const onSubmit = (data: EditUserSchema) => {
-    if (user) {
-      onSave({
-        ...user,
-        first_name: data.first_name,
-        last_name: data.last_name,
-        email: data.email,
-      });
+  const onSubmit = async (data: EditUserSchema) => {
+    try {
+      if (user) {
+        await onSave({
+          ...user,
+          first_name: data.first_name,
+          last_name: data.last_name,
+          email: data.email,
+        });
+      }
+      onOpenChange(false);
+    } catch (error) {
+      if (isAxiosError(error)) {
+        const message = error.response?.data?.message;
+        toast.error(message || t("error"));
+      } else if (error instanceof Error) {
+        toast.error(error.message);
+      } else {
+        toast.error(t("error"));
+      }
     }
-    onOpenChange(false);
   };
 
   return (
