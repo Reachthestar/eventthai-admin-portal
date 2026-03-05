@@ -18,9 +18,12 @@
       "registerDescription": "Don't have an account?",
       "success": "Login successful",
       "error": "Login failed",
+      "invalidCredentials": "Invalid email or password",
       "validation": {
         "invalidEmail": "Invalid email address",
-        "passwordMin": "Password must be at least 6 characters"
+        "passwordMin": "Password must be at least 6 characters",
+        "passwordMax": "Password must be at most 72 characters",
+        "emailRequired": "Email is required"
       }
     },
     "register": {

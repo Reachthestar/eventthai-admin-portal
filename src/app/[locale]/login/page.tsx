@@ -23,6 +23,7 @@ import { useTranslations } from "next-intl";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { getLoginSchema, LoginSchema } from "@/schemas/login-schema";
+import { isAxiosError } from "axios";
 
 export default function LoginPage() {
   const t = useTranslations("auth.login");
@@ -51,7 +52,20 @@ export default function LoginPage() {
       router.push("/");
       toast.success(t("success"));
     } catch (error) {
-      toast.error(t("error"));
+      if (isAxiosError(error)) {
+        const status = error.response?.status;
+        const message = error.response?.data?.message;
+
+        if (status === 401) {
+          toast.error(t("invalidCredentials"));
+        } else {
+          toast.error(message || t("error"));
+        }
+      } else if (error instanceof Error) {
+        toast.error(error.message);
+      } else {
+        toast.error(t("error"));
+      }
     }
   };
 
@@ -80,7 +94,11 @@ export default function LoginPage() {
           </CardHeader>
 
           <CardContent className="pt-4">
-            <form onSubmit={loginFormSubmit(onSubmit)} className="grid gap-5">
+            <form
+              onSubmit={loginFormSubmit(onSubmit)}
+              className="grid gap-5"
+              noValidate
+            >
               {/* Email field */}
               <div className="grid gap-2">
                 <Label
@@ -98,6 +116,7 @@ export default function LoginPage() {
                     {...loginForm("email")}
                     autoComplete="email"
                     required
+                    disabled={isPending}
                     className="pl-10"
                   />
                 </div>
@@ -123,6 +142,7 @@ export default function LoginPage() {
                     {...loginForm("password")}
                     autoComplete="current-password"
                     required
+                    disabled={isPending}
                     className="pl-10 pr-10"
                   />
                   <button
