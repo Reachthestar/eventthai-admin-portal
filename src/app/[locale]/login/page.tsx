@@ -1,29 +1,45 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import Link from "next/link"
-import { Header } from "@/components/header"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Checkbox } from "@/components/ui/checkbox"
+import { useState } from "react";
+import Link from "next/link";
+import { Header } from "@/components/header";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Checkbox } from "@/components/ui/checkbox";
 import {
   Card,
   CardContent,
   CardHeader,
   CardTitle,
   CardDescription,
-} from "@/components/ui/card"
-import { Eye, EyeOff, Mail, Lock } from "lucide-react"
+} from "@/components/ui/card";
+import { Eye, EyeOff, Mail, Lock } from "lucide-react";
+import { useLogin } from "@/hooks/apis/use-auth";
+import { toast } from "sonner";
+import { useAuthStore } from "@/stores/auth-store";
+import { useRouter } from "next/navigation";
 
 export default function LoginPage() {
-  const [showPassword, setShowPassword] = useState(false)
-  const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
+  const router = useRouter();
+  const [showPassword, setShowPassword] = useState(false);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-  }
+  const { mutateAsync: loginMutation } = useLogin();
+  const { login } = useAuthStore();
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      const res = await loginMutation({ email, password });
+      login(res.token);
+      router.push("/");
+      toast.success("Login successful");
+    } catch (error) {
+      toast.error("Login failed");
+    }
+  };
 
   return (
     <div className="flex min-h-screen flex-col bg-background">
@@ -53,7 +69,10 @@ export default function LoginPage() {
             <form onSubmit={handleSubmit} className="grid gap-5">
               {/* Email field */}
               <div className="grid gap-2">
-                <Label htmlFor="login-email" className="text-sm font-medium text-foreground">
+                <Label
+                  htmlFor="login-email"
+                  className="text-sm font-medium text-foreground"
+                >
                   Email
                 </Label>
                 <div className="relative">
@@ -73,7 +92,10 @@ export default function LoginPage() {
 
               {/* Password field */}
               <div className="grid gap-2">
-                <Label htmlFor="login-password" className="text-sm font-medium text-foreground">
+                <Label
+                  htmlFor="login-password"
+                  className="text-sm font-medium text-foreground"
+                >
                   Password
                 </Label>
                 <div className="relative">
@@ -92,7 +114,9 @@ export default function LoginPage() {
                     type="button"
                     onClick={() => setShowPassword((v) => !v)}
                     className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground transition-colors hover:text-foreground"
-                    aria-label={showPassword ? "Hide password" : "Show password"}
+                    aria-label={
+                      showPassword ? "Hide password" : "Show password"
+                    }
                   >
                     {showPassword ? (
                       <EyeOff className="size-4" />
@@ -155,5 +179,5 @@ export default function LoginPage() {
         {"UserHub \u00A9 2026. All rights reserved."}
       </footer>
     </div>
-  )
+  );
 }
