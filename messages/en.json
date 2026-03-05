@@ -54,5 +54,17 @@
       "deleteSuccess": "User deleted successfully",
       "deleteError": "Failed to delete user"
     }
+  },
+  "editUserModal": {
+    "title": "Edit User",
+    "description": "Update the user information below and save your changes.",
+    "firstName": "First Name",
+    "firstNamePlaceholder": "Enter first name",
+    "lastName": "Last Name",
+    "lastNamePlaceholder": "Enter last name",
+    "email": "Email",
+    "emailPlaceholder": "Enter email address",
+    "cancel": "Cancel",
+    "save": "Save Changes"
   }
 }
