@@ -44,12 +44,16 @@ export function DeleteUserModal({
               {t("title")}
             </DialogTitle>
             <DialogDescription className="text-center">
-              {t.rich("description", {
-                userName: user ? `${user.first_name} ${user.last_name}` : "",
-                name: (chunks) => (
-                  <span className="font-medium text-foreground">{chunks}</span>
-                ),
-              })}
+              {user
+                ? t.rich("description", {
+                    userName: `${user.first_name} ${user.last_name}`,
+                    name: (chunks) => (
+                      <span className="font-medium text-foreground">
+                        {chunks}
+                      </span>
+                    ),
+                  })
+                : ""}
             </DialogDescription>
           </DialogHeader>
         </div>
