@@ -16,7 +16,11 @@ import { Pencil, Trash2, Search } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { EditUserModal } from "@/components/edit-user-modal";
 import { DeleteUserModal } from "@/components/delete-user-modal";
-import { useGetUsers, useUpdateUser } from "@/hooks/apis/use-users";
+import {
+  useGetUsers,
+  useUpdateUser,
+  useDeleteUser,
+} from "@/hooks/apis/use-users";
 import { Loader2 } from "lucide-react";
 import { User } from "@/types/users";
 import { toast } from "sonner";
@@ -26,10 +30,11 @@ export function UserTable() {
   const [search, setSearch] = useState("");
   const [editUser, setEditUser] = useState<User | null>(null);
   const [editOpen, setEditOpen] = useState(false);
-  const [deleteUser, setDeleteUser] = useState<User | null>(null);
+  const [deleteUserValue, setDeleteUser] = useState<User | null>(null);
   const [deleteOpen, setDeleteOpen] = useState(false);
   const { data: users, isLoading, isError } = useGetUsers(currentPage);
   const { mutateAsync: updateUser } = useUpdateUser();
+  const { mutateAsync: deleteUser } = useDeleteUser();
 
   const usersList = users?.data || [];
   const totalPages = users?.total_pages || 1;
@@ -64,8 +69,8 @@ export function UserTable() {
       await updateUser(updated);
 
       toast.success("User updated successfully");
-    } catch (error: any) {
-      console.log("Failed to update user", error.response.data.message);
+    } catch (error) {
+      console.log("Failed to update user", error);
       toast.error("Failed to update user");
     }
   };
@@ -82,8 +87,14 @@ export function UserTable() {
     }
   };
 
-  const handleConfirmDelete = (user: User) => {
-    console.log("Delete user", user);
+  const handleConfirmDelete = async (user: User) => {
+    try {
+      await deleteUser(user.id);
+      toast.success("Delete user successfully");
+    } catch (error) {
+      console.log("Failed to delete user", error);
+      toast.error("Failed to delete user");
+    }
   };
 
   return (
@@ -211,7 +222,7 @@ export function UserTable() {
         onSave={handleSaveUser}
       />
       <DeleteUserModal
-        user={deleteUser}
+        user={deleteUserValue}
         open={deleteOpen}
         onOpenChange={handleDeleteOpen}
         onConfirm={handleConfirmDelete}

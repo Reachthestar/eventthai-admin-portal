@@ -12,10 +12,21 @@ export const useGetUsers = (page: number) => {
     },
   });
 };
+
 export const useUpdateUser = () => {
   return useMutation({
     mutationFn: async (user: User) => {
       const response = await api.put(`/api/users/${user.id}`, user);
+
+      return response.data;
+    },
+  });
+};
+
+export const useDeleteUser = () => {
+  return useMutation({
+    mutationFn: async (id: number) => {
+      const response = await api.delete(`/api/users/${id}`);
 
       return response.data;
     },
