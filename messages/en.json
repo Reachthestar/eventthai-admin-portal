@@ -35,6 +35,10 @@
       "loginDescription": "Already have an account?",
       "success": "Registration successful",
       "error": "Registration failed"
+    },
+    "logout": {
+      "logoutButton": "Logout",
+      "logoutSuccess": "Logout successful"
     }
   },
   "userTable": {
@@ -81,5 +85,9 @@
     "of": "of",
     "users": "users",
     "user": "user"
+  },
+  "header": {
+    "brandName": "UserHub",
+    "dashboard": "Dashboard"
   }
 }

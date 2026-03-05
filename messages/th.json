@@ -36,6 +36,10 @@
       "loginDescription": "มีบัญชีอยู่แล้ว?",
       "success": "สมัครสมาชิกสำเร็จ",
       "error": "สมัครสมาชิกไม่สำเร็จ"
+    },
+    "logout": {
+      "logoutButton": "ออกจากระบบ",
+      "logoutSuccess": "ออกจากระบบสำเร็จ"
     }
   },
   "userTable": {
@@ -82,5 +86,9 @@
     "of": "จาก",
     "users": "ผู้ใช้",
     "user": "ผู้ใช้"
+  },
+  "header": {
+    "brandName": "UserHub",
+    "dashboard": "หน้าหลัก"
   }
 }
