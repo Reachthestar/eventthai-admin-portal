@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages } from "next-intl/server";
 import { QueryProvider } from "@/providers/query-provider";
+import { Toaster } from "@/components/ui/sonner";
 import "../globals.css";
 
 export const metadata: Metadata = {
@@ -30,6 +31,7 @@ export default async function LocaleLayout({
       <body className="font-sans antialiased" suppressHydrationWarning>
         <NextIntlClientProvider messages={messages} locale={locale}>
           <QueryProvider>{children}</QueryProvider>
+          <Toaster position="top-center" />
         </NextIntlClientProvider>
       </body>
     </html>
