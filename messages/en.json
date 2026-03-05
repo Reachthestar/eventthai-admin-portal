@@ -45,7 +45,9 @@
       "validation": {
         "invalidEmail": "Invalid email address",
         "passwordMin": "Password must be at least 6 characters",
-        "passwordMismatch": "Passwords do not match"
+        "passwordMismatch": "Passwords do not match",
+        "passwordMax": "Password must be at most 72 characters",
+        "emailRequired": "Email is required"
       }
     },
     "logout": {

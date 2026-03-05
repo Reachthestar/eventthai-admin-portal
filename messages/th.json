@@ -45,7 +45,9 @@
       "validation": {
         "invalidEmail": "รูปแบบอีเมลไม่ถูกต้อง",
         "passwordMin": "รหัสผ่านต้องมีความยาวอย่างน้อย 6 ตัวอักษร",
-        "passwordMismatch": "รหัสผ่านไม่ตรงกัน"
+        "passwordMismatch": "รหัสผ่านไม่ตรงกัน",
+        "passwordMax": "รหัสผ่านต้องไม่เกิน 72 ตัวอักษร",
+        "emailRequired": "กรุณากรอกอีเมล"
       }
     },
     "logout": {

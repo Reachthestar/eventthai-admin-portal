@@ -23,6 +23,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { getRegisterSchema } from "@/schemas/register-schema";
 import type { RegisterSchema } from "@/schemas/register-schema";
+import { isAxiosError } from "axios";
 
 export default function RegisterPage() {
   const t = useTranslations("auth.register");
@@ -51,8 +52,14 @@ export default function RegisterPage() {
       router.push("/");
       toast.success(t("success"));
     } catch (error) {
-      console.log(error);
-      toast.error(t("error"));
+      if (isAxiosError(error)) {
+        const message = error.response?.data?.message;
+        toast.error(message || t("error"));
+      } else if (error instanceof Error) {
+        toast.error(error.message);
+      } else {
+        toast.error(t("error"));
+      }
     }
   };
 
@@ -81,7 +88,11 @@ export default function RegisterPage() {
           </CardHeader>
 
           <CardContent className="pt-4">
-            <form onSubmit={handleSubmitForm(onSubmit)} className="grid gap-4">
+            <form
+              onSubmit={handleSubmitForm(onSubmit)}
+              className="grid gap-4"
+              noValidate
+            >
               {/* Email */}
               <div className="grid gap-2">
                 <Label
