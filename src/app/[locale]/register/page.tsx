@@ -13,19 +13,41 @@ import {
   CardTitle,
   CardDescription,
 } from "@/components/ui/card";
-import { Eye, EyeOff, Mail, Lock, User } from "lucide-react";
+import { Eye, EyeOff, Mail, Lock } from "lucide-react";
+import { useRegister } from "@/hooks/apis/use-auth";
+import { useAuthStore } from "@/stores/auth-store";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 export default function RegisterPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const { mutateAsync: register } = useRegister();
+  const { login } = useAuthStore();
+  const router = useRouter();
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (password !== confirmPassword) {
+      toast.error("Password does not match");
+      return;
+    }
+    try {
+      const res = await register({
+        email,
+        password,
+      });
+      login(res.token);
+      router.push("/");
+      toast.success("Register success");
+    } catch (error) {
+      console.log(error);
+      toast.error("Register failed");
+    }
   };
 
   return (
@@ -54,50 +76,6 @@ export default function RegisterPage() {
 
           <CardContent className="pt-4">
             <form onSubmit={handleSubmit} className="grid gap-4">
-              {/* Name row */}
-              <div className="grid grid-cols-2 gap-3">
-                <div className="grid gap-2">
-                  <Label
-                    htmlFor="reg-first-name"
-                    className="text-sm font-medium text-foreground"
-                  >
-                    First Name
-                  </Label>
-                  <div className="relative">
-                    <User className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
-                    <Input
-                      id="reg-first-name"
-                      placeholder="John"
-                      value={firstName}
-                      onChange={(e) => setFirstName(e.target.value)}
-                      autoComplete="given-name"
-                      required
-                      className="pl-10"
-                    />
-                  </div>
-                </div>
-                <div className="grid gap-2">
-                  <Label
-                    htmlFor="reg-last-name"
-                    className="text-sm font-medium text-foreground"
-                  >
-                    Last Name
-                  </Label>
-                  <div className="relative">
-                    <User className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
-                    <Input
-                      id="reg-last-name"
-                      placeholder="Doe"
-                      value={lastName}
-                      onChange={(e) => setLastName(e.target.value)}
-                      autoComplete="family-name"
-                      required
-                      className="pl-10"
-                    />
-                  </div>
-                </div>
-              </div>
-
               {/* Email */}
               <div className="grid gap-2">
                 <Label
@@ -143,7 +121,7 @@ export default function RegisterPage() {
                   />
                   <button
                     type="button"
-                    onClick={() => setShowPassword((v) => !v)}
+                    onClick={() => setShowPassword((value) => !value)}
                     className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground transition-colors hover:text-foreground"
                     aria-label={
                       showPassword ? "Hide password" : "Show password"
@@ -180,7 +158,7 @@ export default function RegisterPage() {
                   />
                   <button
                     type="button"
-                    onClick={() => setShowConfirm((v) => !v)}
+                    onClick={() => setShowConfirm((value) => !value)}
                     className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground transition-colors hover:text-foreground"
                     aria-label={showConfirm ? "Hide password" : "Show password"}
                   >
@@ -199,7 +177,6 @@ export default function RegisterPage() {
               </Button>
             </form>
 
-            {/* Divider */}
             <div className="relative my-6">
               <div className="absolute inset-0 flex items-center">
                 <span className="w-full border-t border-border" />
