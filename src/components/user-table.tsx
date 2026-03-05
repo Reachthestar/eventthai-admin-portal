@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useMemo } from "react";
+import { useDebounce } from "@/hooks/use-debounce";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
@@ -28,6 +29,7 @@ import { toast } from "sonner";
 export function UserTable() {
   const [currentPage, setCurrentPage] = useState(1);
   const [search, setSearch] = useState("");
+  const debouncedSearch = useDebounce(search);
   const [editUser, setEditUser] = useState<User | null>(null);
   const [editOpen, setEditOpen] = useState(false);
   const [deleteUserValue, setDeleteUser] = useState<User | null>(null);
@@ -42,15 +44,15 @@ export function UserTable() {
   const perPage = users?.per_page || 6;
 
   const filtered = useMemo(() => {
-    if (!search.trim()) return usersList;
-    const searchValue = search.toLowerCase();
+    if (!debouncedSearch.trim()) return usersList;
+    const searchValue = debouncedSearch.toLowerCase();
     return usersList.filter(
       (u: User) =>
         u.first_name.toLowerCase().includes(searchValue) ||
         u.last_name.toLowerCase().includes(searchValue) ||
         u.email.toLowerCase().includes(searchValue),
     );
-  }, [usersList, search]);
+  }, [usersList, debouncedSearch]);
 
   const handleEdit = (user: User) => {
     setEditUser(user);
