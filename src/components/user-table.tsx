@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useMemo } from "react";
-import { type User } from "@/lib/data";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
@@ -15,9 +14,12 @@ import {
 import { TablePagination } from "@/components/ui/pagination";
 import { Pencil, Trash2, Search } from "lucide-react";
 import { Input } from "@/components/ui/input";
-import { EditUserModal, DeleteUserModal } from "@/components/user-modals";
-import { useGetUsers } from "@/hooks/apis/use-users";
+import { EditUserModal } from "@/components/edit-user-modal";
+import { DeleteUserModal } from "@/components/delete-user-modal";
+import { useGetUsers, useUpdateUser } from "@/hooks/apis/use-users";
 import { Loader2 } from "lucide-react";
+import { User } from "@/types/users";
+import { toast } from "sonner";
 
 export function UserTable() {
   const [currentPage, setCurrentPage] = useState(1);
@@ -27,9 +29,7 @@ export function UserTable() {
   const [deleteUser, setDeleteUser] = useState<User | null>(null);
   const [deleteOpen, setDeleteOpen] = useState(false);
   const { data: users, isLoading, isError } = useGetUsers(currentPage);
-
-  console.log("UserTable", users);
-  console.log("UserTable error", isError);
+  const { mutateAsync: updateUser } = useUpdateUser();
 
   const usersList = users?.data || [];
   const totalPages = users?.total_pages || 1;
@@ -38,12 +38,12 @@ export function UserTable() {
 
   const filtered = useMemo(() => {
     if (!search.trim()) return usersList;
-    const s = search.toLowerCase();
+    const searchValue = search.toLowerCase();
     return usersList.filter(
-      (u: any) =>
-        u.first_name.toLowerCase().includes(s) ||
-        u.last_name.toLowerCase().includes(s) ||
-        u.email.toLowerCase().includes(s),
+      (u: User) =>
+        u.first_name.toLowerCase().includes(searchValue) ||
+        u.last_name.toLowerCase().includes(searchValue) ||
+        u.email.toLowerCase().includes(searchValue),
     );
   }, [usersList, search]);
 
@@ -59,8 +59,15 @@ export function UserTable() {
     }
   };
 
-  const handleSaveUser = (updated: User) => {
-    console.log("Save user", updated);
+  const handleSaveUser = async (updated: User) => {
+    try {
+      await updateUser(updated);
+
+      toast.success("User updated successfully");
+    } catch (error: any) {
+      console.log("Failed to update user", error.response.data.message);
+      toast.error("Failed to update user");
+    }
   };
 
   const handleDelete = (user: User) => {
