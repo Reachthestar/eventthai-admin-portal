@@ -66,5 +66,11 @@
     "emailPlaceholder": "Enter email address",
     "cancel": "Cancel",
     "save": "Save Changes"
+  },
+  "deleteUserModal": {
+    "title": "Delete User",
+    "description": "Are you sure you want to delete <name>{userName}</name>? This action cannot be undone.",
+    "cancel": "Cancel",
+    "delete": "Delete"
   }
 }

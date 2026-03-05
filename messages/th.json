@@ -67,5 +67,11 @@
     "emailPlaceholder": "กรอกที่อยู่อีเมล",
     "cancel": "ยกเลิก",
     "save": "บันทึกข้อมูล"
+  },
+  "deleteUserModal": {
+    "title": "ลบข้อมูลผู้ใช้",
+    "description": "คุณแน่ใจหรือไม่ว่าต้องการลบ <name>{userName}</name> การกระทำนี้ไม่สามารถย้อนกลับได้",
+    "cancel": "ยกเลิก",
+    "delete": "ลบ"
   }
 }
