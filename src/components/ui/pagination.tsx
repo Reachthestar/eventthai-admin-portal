@@ -141,8 +141,8 @@ export function TablePagination({
 }: TablePaginationProps) {
   const t = useTranslations("pagination");
   return (
-    <div className="flex items-center justify-between">
-      <p className="text-sm text-muted-foreground">
+    <div className="flex w-full items-center justify-end gap-4 text-sm sm:gap-6">
+      <p className="text-muted-foreground whitespace-nowrap">
         {t("showing")}{" "}
         <span className="font-medium text-foreground">
           {totalItems === 0 ? 0 : (currentPage - 1) * itemsPerPage + 1}
