@@ -25,6 +25,7 @@ import {
 import { Loader2 } from "lucide-react";
 import { User } from "@/types/users";
 import { toast } from "sonner";
+import { useTranslations } from "next-intl";
 
 export function UserTable() {
   const [currentPage, setCurrentPage] = useState(1);
@@ -37,6 +38,7 @@ export function UserTable() {
   const { data: users, isLoading, isError } = useGetUsers(currentPage);
   const { mutateAsync: updateUser } = useUpdateUser();
   const { mutateAsync: deleteUser } = useDeleteUser();
+  const t = useTranslations("userTable");
 
   const usersList = users?.data || [];
   const totalPages = users?.total_pages || 1;
@@ -69,11 +71,9 @@ export function UserTable() {
   const handleSaveUser = async (updated: User) => {
     try {
       await updateUser(updated);
-
-      toast.success("User updated successfully");
+      toast.success(t("messages.updateSuccess"));
     } catch (error) {
-      console.log("Failed to update user", error);
-      toast.error("Failed to update user");
+      toast.error(t("messages.updateError"));
     }
   };
 
@@ -92,10 +92,9 @@ export function UserTable() {
   const handleConfirmDelete = async (user: User) => {
     try {
       await deleteUser(user.id);
-      toast.success("Delete user successfully");
+      toast.success(t("messages.deleteSuccess"));
     } catch (error) {
-      console.log("Failed to delete user", error);
-      toast.error("Failed to delete user");
+      toast.error(t("messages.deleteError"));
     }
   };
 
@@ -105,7 +104,7 @@ export function UserTable() {
       <div className="relative max-w-sm">
         <Search className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
         <Input
-          placeholder="Search users..."
+          placeholder={t("searchPlaceholder")}
           value={search}
           onChange={(e) => {
             setSearch(e.target.value);
@@ -120,11 +119,17 @@ export function UserTable() {
         <Table>
           <TableHeader>
             <TableRow className="hover:bg-transparent">
-              <TableHead className="w-[60px]">Avatar</TableHead>
-              <TableHead>Name</TableHead>
-              <TableHead className="hidden sm:table-cell">Last</TableHead>
-              <TableHead className="hidden md:table-cell">Email</TableHead>
-              <TableHead className="text-right">Actions</TableHead>
+              <TableHead className="w-[60px]">{t("headers.avatar")}</TableHead>
+              <TableHead>{t("headers.name")}</TableHead>
+              <TableHead className="hidden sm:table-cell">
+                {t("headers.last")}
+              </TableHead>
+              <TableHead className="hidden md:table-cell">
+                {t("headers.email")}
+              </TableHead>
+              <TableHead className="text-right">
+                {t("headers.actions")}
+              </TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -136,7 +141,7 @@ export function UserTable() {
                 >
                   <div className="flex items-center justify-center gap-2">
                     <Loader2 className="size-4 animate-spin" />
-                    Loading users...
+                    {t("loading")}
                   </div>
                 </TableCell>
               </TableRow>
@@ -146,7 +151,7 @@ export function UserTable() {
                   colSpan={6}
                   className="h-24 text-center text-muted-foreground"
                 >
-                  No users found.
+                  {t("noItems")}
                 </TableCell>
               </TableRow>
             ) : (

@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { AlertTriangle } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 interface DeleteUserModalProps {
   user: User | null;
@@ -23,6 +24,7 @@ export function DeleteUserModal({
   onOpenChange,
   onConfirm,
 }: DeleteUserModalProps) {
+  const t = useTranslations("deleteUserModal");
   const handleDelete = () => {
     if (user) {
       onConfirm(user);
@@ -39,23 +41,24 @@ export function DeleteUserModal({
           </div>
           <DialogHeader className="text-center">
             <DialogTitle className="text-center text-foreground">
-              Delete User
+              {t("title")}
             </DialogTitle>
             <DialogDescription className="text-center">
-              Are you sure you want to delete{" "}
-              <span className="font-medium text-foreground">
-                {user?.first_name} {user?.last_name}
-              </span>
-              ? This action cannot be undone.
+              {t.rich("description", {
+                userName: user ? `${user.first_name} ${user.last_name}` : "",
+                name: (chunks) => (
+                  <span className="font-medium text-foreground">{chunks}</span>
+                ),
+              })}
             </DialogDescription>
           </DialogHeader>
         </div>
         <DialogFooter className="pt-2">
           <Button variant="outline" onClick={() => onOpenChange(false)}>
-            Cancel
+            {t("cancel")}
           </Button>
           <Button variant="destructive" onClick={handleDelete}>
-            Delete
+            {t("delete")}
           </Button>
         </DialogFooter>
       </DialogContent>

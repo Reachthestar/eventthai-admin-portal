@@ -18,8 +18,10 @@ import { useRegister } from "@/hooks/apis/use-auth";
 import { useAuthStore } from "@/stores/auth-store";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
+import { useTranslations } from "next-intl";
 
 export default function RegisterPage() {
+  const t = useTranslations("auth.register");
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
   const [email, setEmail] = useState("");
@@ -67,10 +69,10 @@ export default function RegisterPage() {
         <Card className="relative z-10 w-full max-w-md border-border bg-card shadow-xl shadow-foreground/5">
           <CardHeader className="pb-2 text-center">
             <CardTitle className="text-2xl font-bold tracking-tight text-foreground">
-              Create an Account
+              {t("title")}
             </CardTitle>
             <CardDescription className="text-muted-foreground">
-              Fill in the details below to get started
+              {t("description")}
             </CardDescription>
           </CardHeader>
 
@@ -82,7 +84,7 @@ export default function RegisterPage() {
                   htmlFor="reg-email"
                   className="text-sm font-medium text-foreground"
                 >
-                  Email
+                  {t("email")}
                 </Label>
                 <div className="relative">
                   <Mail className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
@@ -105,14 +107,14 @@ export default function RegisterPage() {
                   htmlFor="reg-password"
                   className="text-sm font-medium text-foreground"
                 >
-                  Password
+                  {t("createYourPassword")}
                 </Label>
                 <div className="relative">
                   <Lock className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
                   <Input
                     id="reg-password"
                     type={showPassword ? "text" : "password"}
-                    placeholder="Create a password"
+                    placeholder={t("createYourPasswordPlaceholder")}
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     autoComplete="new-password"
@@ -142,14 +144,14 @@ export default function RegisterPage() {
                   htmlFor="reg-confirm"
                   className="text-sm font-medium text-foreground"
                 >
-                  Confirm Password
+                  {t("confirmPassword")}
                 </Label>
                 <div className="relative">
                   <Lock className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
                   <Input
                     id="reg-confirm"
                     type={showConfirm ? "text" : "password"}
-                    placeholder="Confirm your password"
+                    placeholder={t("confirmPasswordPlaceholder")}
                     value={confirmPassword}
                     onChange={(e) => setConfirmPassword(e.target.value)}
                     autoComplete="new-password"
@@ -173,7 +175,7 @@ export default function RegisterPage() {
 
               {/* Submit */}
               <Button type="submit" className="mt-1 w-full" size="lg">
-                Sign Up
+                {t("register")}
               </Button>
             </form>
 
@@ -182,17 +184,19 @@ export default function RegisterPage() {
                 <span className="w-full border-t border-border" />
               </div>
               <div className="relative flex justify-center text-xs uppercase">
-                <span className="bg-card px-2 text-muted-foreground">or</span>
+                <span className="bg-card px-2 text-muted-foreground">
+                  {t("or")}
+                </span>
               </div>
             </div>
 
             <p className="text-center text-sm text-muted-foreground">
-              Already have an account?{" "}
+              {t("loginDescription")}{" "}
               <Link
                 href="/login"
                 className="font-semibold text-primary hover:underline"
               >
-                Login
+                {t("login")}
               </Link>
             </p>
           </CardContent>

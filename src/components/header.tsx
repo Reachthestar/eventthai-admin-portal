@@ -6,15 +6,17 @@ import { Button } from "@/components/ui/button";
 import { LanguageSwitcher } from "./ui/language-switcher";
 import { useAuthStore } from "@/stores/auth-store";
 import { toast } from "sonner";
+import { useTranslations } from "next-intl";
 
 export function Header() {
   const pathname = usePathname();
   const isAuthPage = pathname === "/login" || pathname === "/register";
   const { logout } = useAuthStore();
+  const t = useTranslations();
 
   const handleLogout = () => {
     logout();
-    toast.success("Logout successful");
+    toast.success(t("auth.logout.logoutSuccess"));
   };
 
   return (
@@ -25,7 +27,7 @@ export function Header() {
             <Users className="size-4 text-primary-foreground" />
           </div>
           <span className="text-base font-semibold text-foreground">
-            UserHub
+            {t("header.brandName")}
           </span>
         </Link>
 
@@ -38,12 +40,12 @@ export function Header() {
                   size="sm"
                   className="text-sm"
                 >
-                  Dashboard
+                  {t("header.dashboard")}
                 </Button>
               </Link>
 
               <Button size="sm" className="text-sm" onClick={handleLogout}>
-                Logout
+                {t("auth.logout.logoutButton")}
               </Button>
             </nav>
           )}
