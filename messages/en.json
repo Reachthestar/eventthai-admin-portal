@@ -34,7 +34,12 @@
       "login": "Login",
       "loginDescription": "Already have an account?",
       "success": "Registration successful",
-      "error": "Registration failed"
+      "error": "Registration failed",
+      "validation": {
+        "invalidEmail": "Invalid email address",
+        "passwordMin": "Password must be at least 6 characters",
+        "passwordMismatch": "Passwords do not match"
+      }
     },
     "logout": {
       "logoutButton": "Logout",

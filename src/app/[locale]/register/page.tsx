@@ -19,36 +19,40 @@ import { useAuthStore } from "@/stores/auth-store";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { useTranslations } from "next-intl";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { getRegisterSchema } from "@/schemas/register-schema";
+import type { RegisterSchema } from "@/schemas/register-schema";
 
 export default function RegisterPage() {
   const t = useTranslations("auth.register");
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
 
-  const { mutateAsync: register } = useRegister();
+  const { mutateAsync: register, isPending } = useRegister();
   const { login } = useAuthStore();
   const router = useRouter();
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (password !== confirmPassword) {
-      toast.error("Password does not match");
-      return;
-    }
+  const {
+    register: registerForm,
+    handleSubmit: handleSubmitForm,
+    formState: { errors },
+  } = useForm<RegisterSchema>({
+    resolver: zodResolver(getRegisterSchema(t)),
+  });
+
+  const onSubmit = async (data: RegisterSchema) => {
     try {
       const res = await register({
-        email,
-        password,
+        email: data.email,
+        password: data.password,
       });
       login(res.token);
       router.push("/");
-      toast.success("Register success");
+      toast.success(t("success"));
     } catch (error) {
       console.log(error);
-      toast.error("Register failed");
+      toast.error(t("error"));
     }
   };
 
@@ -77,7 +81,7 @@ export default function RegisterPage() {
           </CardHeader>
 
           <CardContent className="pt-4">
-            <form onSubmit={handleSubmit} className="grid gap-4">
+            <form onSubmit={handleSubmitForm(onSubmit)} className="grid gap-4">
               {/* Email */}
               <div className="grid gap-2">
                 <Label
@@ -92,13 +96,16 @@ export default function RegisterPage() {
                     id="reg-email"
                     type="email"
                     placeholder="name@example.com"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
                     autoComplete="email"
-                    required
+                    {...registerForm("email")}
                     className="pl-10"
                   />
                 </div>
+                {errors.email && (
+                  <p className="text-sm text-destructive">
+                    {errors.email.message}
+                  </p>
+                )}
               </div>
 
               {/* Password */}
@@ -115,10 +122,8 @@ export default function RegisterPage() {
                     id="reg-password"
                     type={showPassword ? "text" : "password"}
                     placeholder={t("createYourPasswordPlaceholder")}
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
                     autoComplete="new-password"
-                    required
+                    {...registerForm("password")}
                     className="pl-10 pr-10"
                   />
                   <button
@@ -136,6 +141,11 @@ export default function RegisterPage() {
                     )}
                   </button>
                 </div>
+                {errors.password && (
+                  <p className="text-sm text-destructive">
+                    {errors.password.message}
+                  </p>
+                )}
               </div>
 
               {/* Confirm password */}
@@ -152,15 +162,14 @@ export default function RegisterPage() {
                     id="reg-confirm"
                     type={showConfirm ? "text" : "password"}
                     placeholder={t("confirmPasswordPlaceholder")}
-                    value={confirmPassword}
-                    onChange={(e) => setConfirmPassword(e.target.value)}
                     autoComplete="new-password"
-                    required
+                    {...registerForm("confirmPassword")}
                     className="pl-10 pr-10"
                   />
                   <button
                     type="button"
                     onClick={() => setShowConfirm((value) => !value)}
+                    disabled={isPending}
                     className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground transition-colors hover:text-foreground"
                     aria-label={showConfirm ? "Hide password" : "Show password"}
                   >
@@ -171,6 +180,11 @@ export default function RegisterPage() {
                     )}
                   </button>
                 </div>
+                {errors.confirmPassword && (
+                  <p className="text-sm text-destructive">
+                    {errors.confirmPassword.message}
+                  </p>
+                )}
               </div>
 
               {/* Submit */}
