@@ -72,5 +72,14 @@
     "description": "Are you sure you want to delete <name>{userName}</name>? This action cannot be undone.",
     "cancel": "Cancel",
     "delete": "Delete"
+  },
+  "pagination": {
+    "previous": "Previous",
+    "next": "Next",
+    "more": "More pages",
+    "showing": "Showing",
+    "of": "of",
+    "users": "users",
+    "user": "user"
   }
 }

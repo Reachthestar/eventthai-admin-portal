@@ -8,6 +8,7 @@ import {
 import { cn } from "@/lib/utils";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { TablePaginationProps } from "@/types/pagination";
+import { useTranslations } from "next-intl";
 
 function Pagination({ className, ...props }: React.ComponentProps<"nav">) {
   return (
@@ -70,6 +71,7 @@ function PaginationPrevious({
   className,
   ...props
 }: React.ComponentProps<typeof PaginationLink>) {
+  const t = useTranslations("pagination");
   return (
     <PaginationLink
       aria-label="Go to previous page"
@@ -78,7 +80,7 @@ function PaginationPrevious({
       {...props}
     >
       <ChevronLeftIcon />
-      <span className="hidden sm:block">Previous</span>
+      <span className="hidden sm:block">{t("previous")}</span>
     </PaginationLink>
   );
 }
@@ -87,6 +89,7 @@ function PaginationNext({
   className,
   ...props
 }: React.ComponentProps<typeof PaginationLink>) {
+  const t = useTranslations("pagination");
   return (
     <PaginationLink
       aria-label="Go to next page"
@@ -94,7 +97,7 @@ function PaginationNext({
       className={cn("gap-1 px-2.5 sm:pr-2.5", className)}
       {...props}
     >
-      <span className="hidden sm:block">Next</span>
+      <span className="hidden sm:block">{t("next")}</span>
       <ChevronRightIcon />
     </PaginationLink>
   );
@@ -104,6 +107,7 @@ function PaginationEllipsis({
   className,
   ...props
 }: React.ComponentProps<"span">) {
+  const t = useTranslations("pagination");
   return (
     <span
       aria-hidden
@@ -112,7 +116,7 @@ function PaginationEllipsis({
       {...props}
     >
       <MoreHorizontalIcon className="size-4" />
-      <span className="sr-only">More pages</span>
+      <span className="sr-only">{t("more")}</span>
     </span>
   );
 }
@@ -135,10 +139,11 @@ export function TablePagination({
   onPageChange,
   itemsName = "items",
 }: TablePaginationProps) {
+  const t = useTranslations("pagination");
   return (
     <div className="flex items-center justify-between">
       <p className="text-sm text-muted-foreground">
-        Showing{" "}
+        {t("showing")}{" "}
         <span className="font-medium text-foreground">
           {totalItems === 0 ? 0 : (currentPage - 1) * itemsPerPage + 1}
         </span>
@@ -146,8 +151,9 @@ export function TablePagination({
         <span className="font-medium text-foreground">
           {Math.min(currentPage * itemsPerPage, totalItems)}
         </span>{" "}
-        of <span className="font-medium text-foreground">{totalItems}</span>{" "}
-        {itemsName}
+        {t("of")}{" "}
+        <span className="font-medium text-foreground">{totalItems}</span>{" "}
+        {totalItems === 1 ? t("user") : t("users")}
       </p>
       <Pagination className="mx-0 w-auto">
         <PaginationContent>
