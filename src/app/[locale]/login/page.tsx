@@ -19,8 +19,10 @@ import { useLogin } from "@/hooks/apis/use-auth";
 import { toast } from "sonner";
 import { useAuthStore } from "@/stores/auth-store";
 import { useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
 
 export default function LoginPage() {
+  const t = useTranslations("auth.login");
   const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState("");
@@ -35,9 +37,9 @@ export default function LoginPage() {
       const res = await loginMutation({ email, password });
       login(res.token);
       router.push("/");
-      toast.success("Login successful");
+      toast.success(t("success"));
     } catch (error) {
-      toast.error("Login failed");
+      toast.error(t("error"));
     }
   };
 
@@ -58,10 +60,10 @@ export default function LoginPage() {
         <Card className="relative z-10 w-full max-w-md border-border bg-card shadow-xl shadow-foreground/5">
           <CardHeader className="pb-2 text-center">
             <CardTitle className="text-2xl font-bold tracking-tight text-foreground">
-              Sign In
+              {t("title")}
             </CardTitle>
             <CardDescription className="text-muted-foreground">
-              Enter your credentials to access your account
+              {t("description")}
             </CardDescription>
           </CardHeader>
 
@@ -73,7 +75,7 @@ export default function LoginPage() {
                   htmlFor="login-email"
                   className="text-sm font-medium text-foreground"
                 >
-                  Email
+                  {t("email")}
                 </Label>
                 <div className="relative">
                   <Mail className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
@@ -96,14 +98,14 @@ export default function LoginPage() {
                   htmlFor="login-password"
                   className="text-sm font-medium text-foreground"
                 >
-                  Password
+                  {t("password")}
                 </Label>
                 <div className="relative">
                   <Lock className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
                   <Input
                     id="login-password"
                     type={showPassword ? "text" : "password"}
-                    placeholder="Enter your password"
+                    placeholder={t("enterYourPassword")}
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     autoComplete="current-password"
@@ -135,20 +137,20 @@ export default function LoginPage() {
                     htmlFor="remember"
                     className="cursor-pointer text-sm font-normal text-muted-foreground"
                   >
-                    Remember me
+                    {t("remember")}
                   </Label>
                 </div>
                 <Link
                   href="#"
                   className="text-sm font-medium text-primary hover:underline"
                 >
-                  Forgot password?
+                  {t("forgotPassword")}
                 </Link>
               </div>
 
               {/* Submit */}
               <Button type="submit" className="w-full" size="lg">
-                Login
+                {t("login")}
               </Button>
             </form>
 
@@ -158,17 +160,19 @@ export default function LoginPage() {
                 <span className="w-full border-t border-border" />
               </div>
               <div className="relative flex justify-center text-xs uppercase">
-                <span className="bg-card px-2 text-muted-foreground">or</span>
+                <span className="bg-card px-2 text-muted-foreground">
+                  {t("or")}
+                </span>
               </div>
             </div>
 
             <p className="text-center text-sm text-muted-foreground">
-              {"Don't have an account? "}
+              {t("registerDescription")}
               <Link
                 href="/register"
                 className="font-semibold text-primary hover:underline"
               >
-                Register
+                {t("register")}
               </Link>
             </p>
           </CardContent>

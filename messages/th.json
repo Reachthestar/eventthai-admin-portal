@@ -2,5 +2,40 @@
   "dashboard": {
     "title": "การจัดการผู้ใช้",
     "description": "ดู แก้ไข และจัดการผู้ใช้ที่ลงทะเบียนทั้งหมดในที่เดียว"
+  },
+  "auth": {
+    "login": {
+      "title": "เข้าสู่ระบบ",
+      "description": "กรอกข้อมูลของคุณเพื่อเข้าสู่ระบบ",
+      "email": "อีเมล",
+      "password": "รหัสผ่าน",
+      "enterYourPassword": "กรอกรหัสผ่านของคุณ",
+      "remember": "จดจำฉัน",
+      "forgotPassword": "ลืมรหัสผ่าน?",
+      "login": "เข้าสู่ระบบ",
+      "or": "หรือ",
+      "register": "สมัครสมาชิก",
+      "registerDescription": "ยังไม่มีบัญชี?",
+      "success": "เข้าสู่ระบบสำเร็จ",
+      "error": "เข้าสู่ระบบไม่สำเร็จ"
+    },
+    "register": {
+      "title": "สมัครสมาชิก",
+      "description": "สร้างบัญชีใหม่",
+      "name": "ชื่อ",
+      "email": "อีเมล",
+      "password": "รหัสผ่าน",
+      "createYourPassword": "สร้างรหัสผ่าน",
+      "createYourPasswordPlaceholder": "สร้างรหัสผ่าน",
+      "confirmPassword": "ยืนยันรหัสผ่าน",
+      "confirmPasswordPlaceholder": "ยืนยันรหัสผ่าน",
+      "terms": "ฉันยอมรับข้อกำหนดและเงื่อนไข",
+      "register": "สมัครสมาชิก",
+      "or": "หรือ",
+      "login": "เข้าสู่ระบบ",
+      "loginDescription": "มีบัญชีอยู่แล้ว?",
+      "success": "สมัครสมาชิกสำเร็จ",
+      "error": "สมัครสมาชิกไม่สำเร็จ"
+    }
   }
 }

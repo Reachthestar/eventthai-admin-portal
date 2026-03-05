@@ -2,5 +2,39 @@
   "dashboard": {
     "title": "User Management",
     "description": "View, edit, and manage all registered users in one place."
+  },
+  "auth": {
+    "login": {
+      "title": "Sign In",
+      "description": "Enter your credentials to access your account",
+      "email": "Email",
+      "password": "Password",
+      "enterYourPassword": "Enter your password",
+      "remember": "Remember me",
+      "forgotPassword": "Forgot password?",
+      "login": "Login",
+      "or": "or",
+      "register": "Register",
+      "registerDescription": "Don't have an account?",
+      "success": "Login successful",
+      "error": "Login failed"
+    },
+    "register": {
+      "title": "Sign Up",
+      "description": "Create a new account",
+      "name": "Name",
+      "email": "Email",
+      "createYourPassword": "Create your password",
+      "createYourPasswordPlaceholder": "Create your password",
+      "confirmPassword": "Confirm Password",
+      "confirmPasswordPlaceholder": "Confirm your password",
+      "terms": "I agree to the terms and conditions",
+      "register": "Register",
+      "or": "or",
+      "login": "Login",
+      "loginDescription": "Already have an account?",
+      "success": "Registration successful",
+      "error": "Registration failed"
+    }
   }
 }
