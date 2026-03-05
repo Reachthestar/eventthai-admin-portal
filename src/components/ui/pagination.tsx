@@ -7,6 +7,7 @@ import {
 
 import { cn } from "@/lib/utils";
 import { Button, buttonVariants } from "@/components/ui/button";
+import { TablePaginationProps } from "@/types/pagination";
 
 function Pagination({ className, ...props }: React.ComponentProps<"nav">) {
   return (
@@ -125,3 +126,80 @@ export {
   PaginationNext,
   PaginationEllipsis,
 };
+
+export function TablePagination({
+  currentPage,
+  totalPages,
+  totalItems,
+  itemsPerPage,
+  onPageChange,
+  itemsName = "items",
+}: TablePaginationProps) {
+  return (
+    <div className="flex items-center justify-between">
+      <p className="text-sm text-muted-foreground">
+        Showing{" "}
+        <span className="font-medium text-foreground">
+          {totalItems === 0 ? 0 : (currentPage - 1) * itemsPerPage + 1}
+        </span>
+        {" - "}
+        <span className="font-medium text-foreground">
+          {Math.min(currentPage * itemsPerPage, totalItems)}
+        </span>{" "}
+        of <span className="font-medium text-foreground">{totalItems}</span>{" "}
+        {itemsName}
+      </p>
+      <Pagination className="mx-0 w-auto">
+        <PaginationContent>
+          <PaginationItem>
+            <PaginationPrevious
+              href="#"
+              onClick={(e) => {
+                e.preventDefault();
+                onPageChange(Math.max(1, currentPage - 1));
+              }}
+              className={
+                currentPage <= 1
+                  ? "pointer-events-none opacity-50"
+                  : "cursor-pointer"
+              }
+            />
+          </PaginationItem>
+          {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+            <PaginationItem key={page} className="hidden sm:block">
+              <PaginationLink
+                href="#"
+                isActive={page === currentPage}
+                onClick={(e) => {
+                  e.preventDefault();
+                  onPageChange(page);
+                }}
+                className={
+                  page === currentPage
+                    ? "border-primary bg-primary/10 text-primary"
+                    : "cursor-pointer"
+                }
+              >
+                {page}
+              </PaginationLink>
+            </PaginationItem>
+          ))}
+          <PaginationItem>
+            <PaginationNext
+              href="#"
+              onClick={(e) => {
+                e.preventDefault();
+                onPageChange(Math.min(totalPages, currentPage + 1));
+              }}
+              className={
+                currentPage >= totalPages
+                  ? "pointer-events-none opacity-50"
+                  : "cursor-pointer"
+              }
+            />
+          </PaginationItem>
+        </PaginationContent>
+      </Pagination>
+    </div>
+  );
+}

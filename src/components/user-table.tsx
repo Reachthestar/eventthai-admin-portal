@@ -1,9 +1,8 @@
 "use client";
 
 import { useState, useMemo } from "react";
-import { dummyUsers, type User } from "@/lib/data";
+import { useDebounce } from "@/hooks/use-debounce";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
   Table,
@@ -13,54 +12,47 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import {
-  Pagination,
-  PaginationContent,
-  PaginationItem,
-  PaginationLink,
-  PaginationNext,
-  PaginationPrevious,
-} from "@/components/ui/pagination";
+import { TablePagination } from "@/components/ui/pagination";
 import { Pencil, Trash2, Search } from "lucide-react";
 import { Input } from "@/components/ui/input";
-import { EditUserModal, DeleteUserModal } from "@/components/user-modals";
-
-const ITEMS_PER_PAGE = 6;
-
-const roleBadgeVariant: Record<string, string> = {
-  Admin: "bg-primary/10 text-primary border-primary/20",
-  Editor: "bg-chart-2/10 text-chart-2 border-chart-2/20",
-  Viewer:
-    "bg-muted-foreground/10 text-muted-foreground border-muted-foreground/20",
-};
+import { EditUserModal } from "@/components/edit-user-modal";
+import { DeleteUserModal } from "@/components/delete-user-modal";
+import {
+  useGetUsers,
+  useUpdateUser,
+  useDeleteUser,
+} from "@/hooks/apis/use-users";
+import { Loader2 } from "lucide-react";
+import { User } from "@/types/users";
+import { toast } from "sonner";
 
 export function UserTable() {
-  const [users, setUsers] = useState<User[]>(dummyUsers);
   const [currentPage, setCurrentPage] = useState(1);
   const [search, setSearch] = useState("");
+  const debouncedSearch = useDebounce(search);
   const [editUser, setEditUser] = useState<User | null>(null);
   const [editOpen, setEditOpen] = useState(false);
-  const [deleteUser, setDeleteUser] = useState<User | null>(null);
+  const [deleteUserValue, setDeleteUser] = useState<User | null>(null);
   const [deleteOpen, setDeleteOpen] = useState(false);
+  const { data: users, isLoading, isError } = useGetUsers(currentPage);
+  const { mutateAsync: updateUser } = useUpdateUser();
+  const { mutateAsync: deleteUser } = useDeleteUser();
+
+  const usersList = users?.data || [];
+  const totalPages = users?.total_pages || 1;
+  const totalUsers = users?.total || 0;
+  const perPage = users?.per_page || 6;
 
   const filtered = useMemo(() => {
-    if (!search.trim()) return users;
-    const s = search.toLowerCase();
-    return users.filter(
-      (u) =>
-        u.first_name.toLowerCase().includes(s) ||
-        u.last_name.toLowerCase().includes(s) ||
-        u.email.toLowerCase().includes(s) ||
-        u.role.toLowerCase().includes(s),
+    if (!debouncedSearch.trim()) return usersList;
+    const searchValue = debouncedSearch.toLowerCase();
+    return usersList.filter(
+      (u: User) =>
+        u.first_name.toLowerCase().includes(searchValue) ||
+        u.last_name.toLowerCase().includes(searchValue) ||
+        u.email.toLowerCase().includes(searchValue),
     );
-  }, [users, search]);
-
-  const totalPages = Math.max(1, Math.ceil(filtered.length / ITEMS_PER_PAGE));
-  const safeCurrentPage = Math.min(currentPage, totalPages);
-  const paginated = filtered.slice(
-    (safeCurrentPage - 1) * ITEMS_PER_PAGE,
-    safeCurrentPage * ITEMS_PER_PAGE,
-  );
+  }, [usersList, debouncedSearch]);
 
   const handleEdit = (user: User) => {
     setEditUser(user);
@@ -74,8 +66,15 @@ export function UserTable() {
     }
   };
 
-  const handleSaveUser = (updated: User) => {
-    setUsers((prev) => prev.map((u) => (u.id === updated.id ? updated : u)));
+  const handleSaveUser = async (updated: User) => {
+    try {
+      await updateUser(updated);
+
+      toast.success("User updated successfully");
+    } catch (error) {
+      console.log("Failed to update user", error);
+      toast.error("Failed to update user");
+    }
   };
 
   const handleDelete = (user: User) => {
@@ -90,8 +89,14 @@ export function UserTable() {
     }
   };
 
-  const handleConfirmDelete = (user: User) => {
-    setUsers((prev) => prev.filter((u) => u.id !== user.id));
+  const handleConfirmDelete = async (user: User) => {
+    try {
+      await deleteUser(user.id);
+      toast.success("Delete user successfully");
+    } catch (error) {
+      console.log("Failed to delete user", error);
+      toast.error("Failed to delete user");
+    }
   };
 
   return (
@@ -119,12 +124,23 @@ export function UserTable() {
               <TableHead>Name</TableHead>
               <TableHead className="hidden sm:table-cell">Last</TableHead>
               <TableHead className="hidden md:table-cell">Email</TableHead>
-              <TableHead className="hidden lg:table-cell">Role</TableHead>
               <TableHead className="text-right">Actions</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
-            {paginated.length === 0 ? (
+            {isLoading ? (
+              <TableRow>
+                <TableCell
+                  colSpan={6}
+                  className="h-24 text-center text-muted-foreground"
+                >
+                  <div className="flex items-center justify-center gap-2">
+                    <Loader2 className="size-4 animate-spin" />
+                    Loading users...
+                  </div>
+                </TableCell>
+              </TableRow>
+            ) : filtered.length === 0 || isError ? (
               <TableRow>
                 <TableCell
                   colSpan={6}
@@ -134,42 +150,34 @@ export function UserTable() {
                 </TableCell>
               </TableRow>
             ) : (
-              paginated.map((user) => (
+              filtered.map((user: any) => (
                 <TableRow key={user.id}>
                   <TableCell>
                     <Avatar className="size-9">
                       <AvatarImage
-                        src={user.avatar}
-                        alt={`${user.first_name} ${user.last_name}`}
+                        src={user?.avatar}
+                        alt={`${user?.first_name} ${user?.last_name}`}
                       />
                       <AvatarFallback className="bg-primary/10 text-primary text-xs font-medium">
-                        {user.first_name[0]}
-                        {user.last_name[0]}
+                        {user?.first_name[0]}
+                        {user?.last_name[0]}
                       </AvatarFallback>
                     </Avatar>
                   </TableCell>
                   <TableCell className="font-medium text-foreground">
                     <div>
-                      {user.first_name}
-                      <span className="ml-1 sm:hidden">{user.last_name}</span>
+                      {user?.first_name}
+                      <span className="ml-1 sm:hidden">{user?.last_name}</span>
                     </div>
                     <div className="text-xs text-muted-foreground md:hidden">
-                      {user.email}
+                      {user?.email}
                     </div>
                   </TableCell>
                   <TableCell className="hidden text-foreground sm:table-cell">
-                    {user.last_name}
+                    {user?.last_name}
                   </TableCell>
                   <TableCell className="hidden text-muted-foreground md:table-cell">
-                    {user.email}
-                  </TableCell>
-                  <TableCell className="hidden lg:table-cell">
-                    <Badge
-                      variant="outline"
-                      className={roleBadgeVariant[user.role] || ""}
-                    >
-                      {user.role}
-                    </Badge>
+                    {user?.email}
                   </TableCell>
                   <TableCell className="text-right">
                     <div className="flex items-center justify-end gap-1">
@@ -177,7 +185,7 @@ export function UserTable() {
                         variant="outline"
                         size="icon-sm"
                         onClick={() => handleEdit(user)}
-                        aria-label={`Edit ${user.first_name}`}
+                        aria-label={`Edit ${user?.first_name}`}
                       >
                         <Pencil className="size-3.5" />
                       </Button>
@@ -185,7 +193,7 @@ export function UserTable() {
                         variant="destructive"
                         size="icon-sm"
                         onClick={() => handleDelete(user)}
-                        aria-label={`Delete ${user.first_name}`}
+                        aria-label={`Delete ${user?.first_name}`}
                       >
                         <Trash2 className="size-3.5" />
                       </Button>
@@ -199,72 +207,14 @@ export function UserTable() {
       </div>
 
       {/* Pagination */}
-      <div className="flex items-center justify-between">
-        <p className="text-sm text-muted-foreground">
-          Showing{" "}
-          <span className="font-medium text-foreground">
-            {(safeCurrentPage - 1) * ITEMS_PER_PAGE + 1}
-          </span>
-          {" - "}
-          <span className="font-medium text-foreground">
-            {Math.min(safeCurrentPage * ITEMS_PER_PAGE, filtered.length)}
-          </span>{" "}
-          of{" "}
-          <span className="font-medium text-foreground">{filtered.length}</span>{" "}
-          users
-        </p>
-        <Pagination className="mx-0 w-auto">
-          <PaginationContent>
-            <PaginationItem>
-              <PaginationPrevious
-                href="#"
-                onClick={(e) => {
-                  e.preventDefault();
-                  setCurrentPage((p) => Math.max(1, p - 1));
-                }}
-                className={
-                  safeCurrentPage <= 1
-                    ? "pointer-events-none opacity-50"
-                    : "cursor-pointer"
-                }
-              />
-            </PaginationItem>
-            {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
-              <PaginationItem key={page} className="hidden sm:block">
-                <PaginationLink
-                  href="#"
-                  isActive={page === safeCurrentPage}
-                  onClick={(e) => {
-                    e.preventDefault();
-                    setCurrentPage(page);
-                  }}
-                  className={
-                    page === safeCurrentPage
-                      ? "border-primary bg-primary/10 text-primary"
-                      : "cursor-pointer"
-                  }
-                >
-                  {page}
-                </PaginationLink>
-              </PaginationItem>
-            ))}
-            <PaginationItem>
-              <PaginationNext
-                href="#"
-                onClick={(e) => {
-                  e.preventDefault();
-                  setCurrentPage((p) => Math.min(totalPages, p + 1));
-                }}
-                className={
-                  safeCurrentPage >= totalPages
-                    ? "pointer-events-none opacity-50"
-                    : "cursor-pointer"
-                }
-              />
-            </PaginationItem>
-          </PaginationContent>
-        </Pagination>
-      </div>
+      <TablePagination
+        currentPage={currentPage}
+        totalPages={totalPages}
+        totalItems={totalUsers}
+        itemsPerPage={perPage}
+        onPageChange={setCurrentPage}
+        itemsName="users"
+      />
 
       {/* Modals */}
       <EditUserModal
@@ -274,7 +224,7 @@ export function UserTable() {
         onSave={handleSaveUser}
       />
       <DeleteUserModal
-        user={deleteUser}
+        user={deleteUserValue}
         open={deleteOpen}
         onOpenChange={handleDeleteOpen}
         onConfirm={handleConfirmDelete}

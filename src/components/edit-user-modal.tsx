@@ -1,7 +1,7 @@
 "use client";
 
-import { useState } from "react";
-import type { User } from "@/lib/data";
+import { useState, useEffect } from "react";
+import type { User } from "@/types/users";
 import {
   Dialog,
   DialogContent,
@@ -13,7 +13,6 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { AlertTriangle } from "lucide-react";
 
 interface EditUserModalProps {
   user: User | null;
@@ -28,15 +27,23 @@ export function EditUserModal({
   onOpenChange,
   onSave,
 }: EditUserModalProps) {
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [email, setEmail] = useState("");
+  const [firstName, setFirstName] = useState(user?.first_name || "");
+  const [lastName, setLastName] = useState(user?.last_name || "");
+  const [email, setEmail] = useState(user?.email || "");
+
+  useEffect(() => {
+    if (user) {
+      setFirstName(user.first_name || "");
+      setLastName(user.last_name || "");
+      setEmail(user.email || "");
+    }
+  }, [user, open]);
 
   const handleOpenChange = (isOpen: boolean) => {
-    if (isOpen && user) {
-      setFirstName(user.first_name);
-      setLastName(user.last_name);
-      setEmail(user.email);
+    if (!isOpen) {
+      setFirstName("");
+      setLastName("");
+      setEmail("");
     }
     onOpenChange(isOpen);
   };
@@ -45,9 +52,9 @@ export function EditUserModal({
     if (user) {
       onSave({
         ...user,
-        first_name: firstName,
-        last_name: lastName,
-        email,
+        first_name: firstName || "",
+        last_name: lastName || "",
+        email: email || "",
       });
     }
     onOpenChange(false);
@@ -103,55 +110,4 @@ export function EditUserModal({
   );
 }
 
-interface DeleteUserModalProps {
-  user: User | null;
-  open: boolean;
-  onOpenChange: (open: boolean) => void;
-  onConfirm: (user: User) => void;
-}
-
-export function DeleteUserModal({
-  user,
-  open,
-  onOpenChange,
-  onConfirm,
-}: DeleteUserModalProps) {
-  const handleDelete = () => {
-    if (user) {
-      onConfirm(user);
-    }
-    onOpenChange(false);
-  };
-
-  return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[400px]">
-        <div className="flex flex-col items-center gap-3 pt-2 text-center">
-          <div className="flex size-12 items-center justify-center rounded-full bg-destructive/10">
-            <AlertTriangle className="size-6 text-destructive" />
-          </div>
-          <DialogHeader className="text-center">
-            <DialogTitle className="text-center text-foreground">
-              Delete User
-            </DialogTitle>
-            <DialogDescription className="text-center">
-              Are you sure you want to delete{" "}
-              <span className="font-medium text-foreground">
-                {user?.first_name} {user?.last_name}
-              </span>
-              ? This action cannot be undone.
-            </DialogDescription>
-          </DialogHeader>
-        </div>
-        <DialogFooter className="pt-2">
-          <Button variant="outline" onClick={() => onOpenChange(false)}>
-            Cancel
-          </Button>
-          <Button variant="destructive" onClick={handleDelete}>
-            Delete
-          </Button>
-        </DialogFooter>
-      </DialogContent>
-    </Dialog>
-  );
-}
+export default EditUserModal;
