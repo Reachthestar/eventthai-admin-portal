@@ -82,6 +82,8 @@
     "emailPlaceholder": "Enter email address",
     "cancel": "Cancel",
     "save": "Save Changes",
+    "error": "Failed to update user",
+    "success": "User updated successfully",
     "validation": {
       "firstNameRequired": "First name is required",
       "invalidName": "Invalid name",
@@ -97,7 +99,9 @@
     "title": "Delete User",
     "description": "Are you sure you want to delete <name>{userName}</name>? This action cannot be undone.",
     "cancel": "Cancel",
-    "delete": "Delete"
+    "delete": "Delete",
+    "error": "Failed to delete user",
+    "success": "User deleted successfully"
   },
   "pagination": {
     "previous": "Previous",

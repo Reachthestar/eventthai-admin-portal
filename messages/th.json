@@ -82,6 +82,8 @@
     "emailPlaceholder": "กรอกที่อยู่อีเมล",
     "cancel": "ยกเลิก",
     "save": "บันทึกข้อมูล",
+    "error": "อัปเดตผู้ใช้ไม่สำเร็จ",
+    "success": "อัปเดตผู้ใช้สำเร็จ",
     "validation": {
       "firstNameRequired": "กรุณากรอกชื่อ",
       "invalidName": "ชื่อไม่ถูกต้อง",
@@ -97,7 +99,9 @@
     "title": "ลบข้อมูลผู้ใช้",
     "description": "คุณแน่ใจหรือไม่ว่าต้องการลบ <name>{userName}</name> การกระทำนี้ไม่สามารถย้อนกลับได้",
     "cancel": "ยกเลิก",
-    "delete": "ลบ"
+    "delete": "ลบ",
+    "error": "ลบผู้ใช้ไม่สำเร็จ",
+    "success": "ลบผู้ใช้สำเร็จ"
   },
   "pagination": {
     "previous": "ก่อนหน้า",

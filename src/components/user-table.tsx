@@ -26,6 +26,7 @@ import { Loader2 } from "lucide-react";
 import { User } from "@/types/users";
 import { toast } from "sonner";
 import { useTranslations } from "next-intl";
+import { isAxiosError } from "axios";
 
 export function UserTable() {
   const [currentPage, setCurrentPage] = useState(1);
@@ -39,6 +40,8 @@ export function UserTable() {
   const { mutateAsync: updateUser } = useUpdateUser();
   const { mutateAsync: deleteUser } = useDeleteUser();
   const t = useTranslations("userTable");
+  const tEditUserModalError = useTranslations("editUserModal");
+  const tDeleteUserModalError = useTranslations("deleteUserModal");
 
   const usersList = users?.data || [];
   const totalPages = users?.total_pages || 1;
@@ -71,9 +74,16 @@ export function UserTable() {
   const handleSaveUser = async (updated: User) => {
     try {
       await updateUser(updated);
-      toast.success(t("messages.updateSuccess"));
+      toast.success(tEditUserModalError("success"));
     } catch (error) {
-      toast.error(t("messages.updateError"));
+      if (isAxiosError(error)) {
+        const message = error.response?.data?.message;
+        toast.error(message || tEditUserModalError("error"));
+      } else if (error instanceof Error) {
+        toast.error(error.message);
+      } else {
+        toast.error(tEditUserModalError("error"));
+      }
     }
   };
 
@@ -92,9 +102,16 @@ export function UserTable() {
   const handleConfirmDelete = async (user: User) => {
     try {
       await deleteUser(user.id);
-      toast.success(t("messages.deleteSuccess"));
+      toast.success(tDeleteUserModalError("success"));
     } catch (error) {
-      toast.error(t("messages.deleteError"));
+      if (isAxiosError(error)) {
+        const message = error.response?.data?.message;
+        toast.error(message || tDeleteUserModalError("error"));
+      } else if (error instanceof Error) {
+        toast.error(error.message);
+      } else {
+        toast.error(tDeleteUserModalError("error"));
+      }
     }
   };
 
