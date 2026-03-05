@@ -36,5 +36,23 @@
       "success": "Registration successful",
       "error": "Registration failed"
     }
+  },
+  "userTable": {
+    "searchPlaceholder": "Search users...",
+    "headers": {
+      "avatar": "Avatar",
+      "name": "Name",
+      "last": "Last",
+      "email": "Email",
+      "actions": "Actions"
+    },
+    "loading": "Loading users...",
+    "noItems": "No users found.",
+    "messages": {
+      "updateSuccess": "User updated successfully",
+      "updateError": "Failed to update user",
+      "deleteSuccess": "User deleted successfully",
+      "deleteError": "Failed to delete user"
+    }
   }
 }
