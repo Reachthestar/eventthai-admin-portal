@@ -34,16 +34,6 @@ export function Header() {
         <div className="flex items-center gap-3">
           {!isAuthPage && (
             <nav className="mr-2 hidden items-center gap-1 sm:flex">
-              <Link href="/">
-                <Button
-                  variant={pathname === "/" ? "secondary" : "ghost"}
-                  size="sm"
-                  className="text-sm"
-                >
-                  {t("header.dashboard")}
-                </Button>
-              </Link>
-
               <Button size="sm" className="text-sm" onClick={handleLogout}>
                 {t("auth.logout.logoutButton")}
               </Button>
