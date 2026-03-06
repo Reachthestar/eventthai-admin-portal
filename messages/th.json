@@ -17,7 +17,13 @@
       "register": "สมัครสมาชิก",
       "registerDescription": "ยังไม่มีบัญชี?",
       "success": "เข้าสู่ระบบสำเร็จ",
-      "error": "เข้าสู่ระบบไม่สำเร็จ"
+      "error": "เข้าสู่ระบบไม่สำเร็จ",
+      "validation": {
+        "invalidEmail": "รูปแบบอีเมลไม่ถูกต้อง",
+        "passwordMin": "รหัสผ่านต้องมีความยาวอย่างน้อย 6 ตัวอักษร",
+        "passwordMax": "รหัสผ่านต้องไม่เกิน 72 ตัวอักษร",
+        "emailRequired": "กรุณากรอกอีเมล"
+      }
     },
     "register": {
       "title": "สมัครสมาชิก",
@@ -35,7 +41,14 @@
       "login": "เข้าสู่ระบบ",
       "loginDescription": "มีบัญชีอยู่แล้ว?",
       "success": "สมัครสมาชิกสำเร็จ",
-      "error": "สมัครสมาชิกไม่สำเร็จ"
+      "error": "สมัครสมาชิกไม่สำเร็จ",
+      "validation": {
+        "invalidEmail": "รูปแบบอีเมลไม่ถูกต้อง",
+        "passwordMin": "รหัสผ่านต้องมีความยาวอย่างน้อย 6 ตัวอักษร",
+        "passwordMismatch": "รหัสผ่านไม่ตรงกัน",
+        "passwordMax": "รหัสผ่านต้องไม่เกิน 72 ตัวอักษร",
+        "emailRequired": "กรุณากรอกอีเมล"
+      }
     },
     "logout": {
       "logoutButton": "ออกจากระบบ",
@@ -70,13 +83,27 @@
     "email": "อีเมล",
     "emailPlaceholder": "กรอกที่อยู่อีเมล",
     "cancel": "ยกเลิก",
-    "save": "บันทึกข้อมูล"
+    "save": "บันทึกข้อมูล",
+    "error": "อัปเดตผู้ใช้ไม่สำเร็จ",
+    "success": "อัปเดตผู้ใช้สำเร็จ",
+    "validation": {
+      "firstNameRequired": "กรุณากรอกชื่อ",
+      "invalidName": "ชื่อไม่ถูกต้อง",
+      "lastNameRequired": "กรุณากรอกนามสกุล",
+      "invalidLastName": "นามสกุลไม่ถูกต้อง",
+      "emailRequired": "กรุณากรอกอีเมล",
+      "invalidEmail": "รูปแบบอีเมลไม่ถูกต้อง",
+      "firstNameMax": "ชื่อต้องไม่เกิน 50 ตัวอักษร",
+      "lastNameMax": "นามสกุลต้องไม่เกิน 50 ตัวอักษร"
+    }
   },
   "deleteUserModal": {
     "title": "ลบข้อมูลผู้ใช้",
     "description": "คุณแน่ใจหรือไม่ว่าต้องการลบ <name>{userName}</name> การกระทำนี้ไม่สามารถย้อนกลับได้",
     "cancel": "ยกเลิก",
-    "delete": "ลบ"
+    "delete": "ลบ",
+    "error": "ลบผู้ใช้ไม่สำเร็จ",
+    "success": "ลบผู้ใช้สำเร็จ"
   },
   "pagination": {
     "previous": "ก่อนหน้า",

@@ -17,7 +17,14 @@
       "register": "Register",
       "registerDescription": "Don't have an account?",
       "success": "Login successful",
-      "error": "Login failed"
+      "error": "Login failed",
+      "invalidCredentials": "Invalid email or password",
+      "validation": {
+        "invalidEmail": "Invalid email address",
+        "passwordMin": "Password must be at least 6 characters",
+        "passwordMax": "Password must be at most 72 characters",
+        "emailRequired": "Email is required"
+      }
     },
     "register": {
       "title": "Sign Up",
@@ -34,7 +41,14 @@
       "login": "Login",
       "loginDescription": "Already have an account?",
       "success": "Registration successful",
-      "error": "Registration failed"
+      "error": "Registration failed",
+      "validation": {
+        "invalidEmail": "Invalid email address",
+        "passwordMin": "Password must be at least 6 characters",
+        "passwordMismatch": "Passwords do not match",
+        "passwordMax": "Password must be at most 72 characters",
+        "emailRequired": "Email is required"
+      }
     },
     "logout": {
       "logoutButton": "Logout",
@@ -69,13 +83,27 @@
     "email": "Email",
     "emailPlaceholder": "Enter email address",
     "cancel": "Cancel",
-    "save": "Save Changes"
+    "save": "Save Changes",
+    "error": "Failed to update user",
+    "success": "User updated successfully",
+    "validation": {
+      "firstNameRequired": "First name is required",
+      "invalidName": "Invalid name",
+      "lastNameRequired": "Last name is required",
+      "invalidLastName": "Invalid last name",
+      "emailRequired": "Email is required",
+      "invalidEmail": "Invalid email address",
+      "firstNameMax": "First name must be at most 50 characters",
+      "lastNameMax": "Last name must be at most 50 characters"
+    }
   },
   "deleteUserModal": {
     "title": "Delete User",
     "description": "Are you sure you want to delete <name>{userName}</name>? This action cannot be undone.",
     "cancel": "Cancel",
-    "delete": "Delete"
+    "delete": "Delete",
+    "error": "Failed to delete user",
+    "success": "User deleted successfully"
   },
   "pagination": {
     "previous": "Previous",
