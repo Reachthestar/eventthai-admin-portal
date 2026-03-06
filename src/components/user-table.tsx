@@ -115,6 +115,7 @@ export function UserTable() {
           <Search className="absolute left-4 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
           <Input
             placeholder={t("searchPlaceholder")}
+            data-testid="user-search-input"
             value={search}
             onChange={(e) => {
               setSearch(e.target.value);

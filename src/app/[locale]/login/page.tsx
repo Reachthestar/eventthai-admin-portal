@@ -111,6 +111,7 @@ export default function LoginPage() {
                   <Mail className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
                   <Input
                     id="login-email"
+                    data-testid="login-email"
                     type="email"
                     placeholder="name@example.com"
                     {...loginForm("email")}
@@ -121,7 +122,9 @@ export default function LoginPage() {
                   />
                 </div>
                 {errors.email && (
-                  <p className="text-red-500 text-sm">{errors.email.message}</p>
+                  <p className="text-red-500 text-sm" data-testid="email-error">
+                    {errors.email.message}
+                  </p>
                 )}
               </div>
 
@@ -137,6 +140,7 @@ export default function LoginPage() {
                   <Lock className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
                   <Input
                     id="login-password"
+                    data-testid="login-password"
                     type={showPassword ? "text" : "password"}
                     placeholder={t("enterYourPassword")}
                     {...loginForm("password")}
@@ -162,7 +166,10 @@ export default function LoginPage() {
                   </button>
                 </div>
                 {errors.password && (
-                  <p className="text-red-500 text-sm">
+                  <p
+                    className="text-red-500 text-sm"
+                    data-testid="password-error"
+                  >
                     {errors.password.message}
                   </p>
                 )}
@@ -188,7 +195,12 @@ export default function LoginPage() {
               </div>
 
               {/* Submit */}
-              <Button type="submit" className="w-full" size="lg">
+              <Button
+                type="submit"
+                data-testid="login-submit"
+                className="w-full"
+                size="lg"
+              >
                 {t("login")}
               </Button>
             </form>
