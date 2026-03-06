@@ -45,7 +45,7 @@ export function Header() {
           <LanguageSwitcher />
         </div>
 
-        {/* Mobile: show LanguageSwitcher + burger on auth pages, just burger otherwise */}
+        {/* Mobile */}
         <div className="flex items-center gap-2 sm:hidden">
           {isAuthPage ? (
             <LanguageSwitcher />
