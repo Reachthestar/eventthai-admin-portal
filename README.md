@@ -1,36 +1,97 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Event Thai Admin Portal
 
-## Getting Started
+An administration portal for Event Thai, built with Next.js and the App Router. This application is designed to manage users, events, and other internal administrative tasks with a seamless, multilingual user interface supporting both English and Thai.
 
-First, run the development server:
+## 🚀 Tech Stack
+
+This project is built using modern web development technologies to ensure performance, maintainability, and a great developer experience.
+
+- **Framework**: [Next.js 16](https://nextjs.org/) (App Router)
+- **UI & Styling**:
+  - [React 19](https://react.dev/)
+  - [Tailwind CSS v4](https://tailwindcss.com/)
+  - [Radix UI](https://www.radix-ui.com/) (Accessible headless components)
+  - [Lucide React](https://lucide.dev/) (Icons)
+- **State Management & Data Fetching**:
+  - [Zustand](https://zustand-demo.pmnd.rs/) (Fast, scalable client-side state)
+  - [TanStack Query (React Query)](https://tanstack.com/query/latest) (Server state management)
+  - [Axios](https://axios-http.com/) (HTTP client)
+- **Forms & Validation**:
+  - [React Hook Form](https://react-hook-form.com/)
+  - [Zod](https://zod.dev/) (Schema validation)
+- **Internationalization (i18n)**:
+  - [next-intl](https://next-intl-docs.vercel.app/)
+- **Testing**:
+  - [Playwright](https://playwright.dev/) (End-to-End Testing)
+- **Deployment**:
+  - Ready for [Cloudflare Pages](https://pages.cloudflare.com/) (`@cloudflare/next-on-pages`)
+
+## 🛠 Getting Started
+
+### Prerequisites
+
+Make sure you have [Node.js](https://nodejs.org/) installed along with `pnpm`, which is the recommended package manager for this project.
+
+### Installation
+
+Clone the repository and install the dependencies:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+pnpm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Running the Development Server
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Start the development server:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+pnpm dev
+# or: npm run dev / yarn dev
+```
 
-## Learn More
+Open [http://localhost:3000](http://localhost:3000) in your browser to view the application.
 
-To learn more about Next.js, take a look at the following resources:
+### Building for Production
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+To create an optimized production build:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```bash
+pnpm build
+```
 
-## Deploy on Vercel
+To run the built application locally:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```bash
+pnpm start
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 🧪 Testing
+
+This project uses **Playwright** for end-to-end testing to ensure system reliability across browser environments.
+
+To run the Playwright test suite, use the following commands:
+
+```bash
+# Run all tests in headless mode (perfect for CI)
+npx playwright test
+# or
+pnpm exec playwright test
+
+# Run tests interactively with the UI explorer
+npx playwright test --ui
+
+# Run tests in a specific browser only (e.g., chromium)
+npx playwright test --project=chromium
+
+# Generate and view the HTML test report
+npx playwright show-report
+```
+
+## 📁 Project Structure Highlights
+
+- **`src/app/`**: Next.js App Router structure, including `[locale]` for localized routes.
+- **`src/components/`**: Reusable React components grouped by feature and UI primitives.
+- **`messages/`**: Translation files (`en.json`, `th.json`) for internationalization content.
+- **`src/stores/`**: Global state definitions using Zustand (e.g., authentication flow).
+- **`src/i18n/`**: Setup for routing and Next-Intl configuration.
+- **`src/lib/`**: Core utilities, standardized axios fetching instances, and helper functions.
