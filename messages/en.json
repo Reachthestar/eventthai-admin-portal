@@ -1,0 +1,121 @@
+{
+  "dashboard": {
+    "title": "User Management",
+    "description": "View, edit, and manage all registered users in one place."
+  },
+  "auth": {
+    "login": {
+      "title": "Sign In",
+      "description": "Enter your credentials to access your account",
+      "email": "Email",
+      "password": "Password",
+      "enterYourPassword": "Enter your password",
+      "remember": "Remember me",
+      "forgotPassword": "Forgot password?",
+      "login": "Login",
+      "or": "or",
+      "register": "Register",
+      "registerDescription": "Don't have an account?",
+      "success": "Login successful",
+      "error": "Login failed",
+      "invalidCredentials": "Invalid email or password",
+      "validation": {
+        "invalidEmail": "Invalid email address",
+        "passwordMin": "Password must be at least 6 characters",
+        "passwordMax": "Password must be at most 72 characters",
+        "emailRequired": "Email is required"
+      }
+    },
+    "register": {
+      "title": "Sign Up",
+      "description": "Create a new account",
+      "name": "Name",
+      "email": "Email",
+      "createYourPassword": "Create your password",
+      "createYourPasswordPlaceholder": "Create your password",
+      "confirmPassword": "Confirm Password",
+      "confirmPasswordPlaceholder": "Confirm your password",
+      "terms": "I agree to the terms and conditions",
+      "register": "Register",
+      "or": "or",
+      "login": "Login",
+      "loginDescription": "Already have an account?",
+      "success": "Registration successful",
+      "error": "Registration failed",
+      "validation": {
+        "invalidEmail": "Invalid email address",
+        "passwordMin": "Password must be at least 6 characters",
+        "passwordMismatch": "Passwords do not match",
+        "passwordMax": "Password must be at most 72 characters",
+        "emailRequired": "Email is required"
+      }
+    },
+    "logout": {
+      "logoutButton": "Logout",
+      "logoutSuccess": "Logout successful"
+    }
+  },
+  "userTable": {
+    "searchPlaceholder": "Search users...",
+    "headers": {
+      "avatar": "Avatar",
+      "name": "Name",
+      "last": "Last",
+      "email": "Email",
+      "actions": "Actions"
+    },
+    "loading": "Loading users...",
+    "noItems": "No users found.",
+    "messages": {
+      "updateSuccess": "User updated successfully",
+      "updateError": "Failed to update user",
+      "deleteSuccess": "User deleted successfully",
+      "deleteError": "Failed to delete user"
+    }
+  },
+  "editUserModal": {
+    "title": "Edit User",
+    "description": "Update the user information below and save your changes.",
+    "firstName": "First Name",
+    "firstNamePlaceholder": "Enter first name",
+    "lastName": "Last Name",
+    "lastNamePlaceholder": "Enter last name",
+    "email": "Email",
+    "emailPlaceholder": "Enter email address",
+    "cancel": "Cancel",
+    "save": "Save Changes",
+    "error": "Failed to update user",
+    "success": "User updated successfully",
+    "validation": {
+      "firstNameRequired": "First name is required",
+      "invalidName": "Invalid name",
+      "lastNameRequired": "Last name is required",
+      "invalidLastName": "Invalid last name",
+      "emailRequired": "Email is required",
+      "invalidEmail": "Invalid email address",
+      "firstNameMax": "First name must be at most 50 characters",
+      "lastNameMax": "Last name must be at most 50 characters"
+    }
+  },
+  "deleteUserModal": {
+    "title": "Delete User",
+    "description": "Are you sure you want to delete <name>{userName}</name>? This action cannot be undone.",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "error": "Failed to delete user",
+    "success": "User deleted successfully"
+  },
+  "pagination": {
+    "previous": "Previous",
+    "next": "Next",
+    "more": "More pages",
+    "showing": "Showing",
+    "of": "of",
+    "users": "users",
+    "user": "user"
+  },
+  "header": {
+    "brandName": "UserHub",
+    "dashboard": "Dashboard"
+  }
+}
