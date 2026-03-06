@@ -177,25 +177,6 @@ export default function LoginPage() {
                 )}
               </div>
 
-              {/* Remember me */}
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <Checkbox id="remember" />
-                  <Label
-                    htmlFor="remember"
-                    className="cursor-pointer text-sm font-normal text-muted-foreground"
-                  >
-                    {t("remember")}
-                  </Label>
-                </div>
-                <Link
-                  href="#"
-                  className="text-sm font-medium text-primary hover:underline"
-                >
-                  {t("forgotPassword")}
-                </Link>
-              </div>
-
               {/* Submit */}
               <Button
                 type="submit"

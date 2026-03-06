@@ -10,8 +10,6 @@
       "email": "Email",
       "password": "Password",
       "enterYourPassword": "Enter your password",
-      "remember": "Remember me",
-      "forgotPassword": "Forgot password?",
       "login": "Login",
       "or": "or",
       "register": "Register",
