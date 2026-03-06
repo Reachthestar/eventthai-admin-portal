@@ -3,7 +3,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 export const UserTableSkeleton = () => {
   return (
     <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-      {Array.from({ length: 9 }).map((_, i) => (
+      {Array.from({ length: 6 }).map((_, i) => (
         <div
           key={i}
           className="flex flex-col justify-between gap-5 rounded-2xl border border-border/50 bg-card p-5 shadow-sm"
