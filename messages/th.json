@@ -114,6 +114,7 @@
   },
   "header": {
     "brandName": "UserHub",
-    "dashboard": "หน้าหลัก"
+    "dashboard": "หน้าหลัก",
+    "language": "ภาษา"
   }
 }
