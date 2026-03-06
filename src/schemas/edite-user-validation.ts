@@ -11,7 +11,7 @@ const baseSchema = z.object({
 
 export type EditUserSchema = z.infer<typeof baseSchema>;
 
-const nameRegex = /^[a-zA-Zก-ฮะ-์\s]+$/;
+const nameRegex = /^(?=.*[a-zA-Zก-ฮ])[a-zA-Zก-ฮะ-์\s]+$/;
 
 export const getEditUserSchema = (t: TranslationFn) =>
   baseSchema.extend({
