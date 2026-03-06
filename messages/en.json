@@ -45,7 +45,8 @@
         "passwordMin": "Password must be at least 6 characters",
         "passwordMismatch": "Passwords do not match",
         "passwordMax": "Password must be at most 72 characters",
-        "emailRequired": "Email is required"
+        "emailRequired": "Email is required",
+        "invalidPasswordFormat": "Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character"
       }
     },
     "logout": {

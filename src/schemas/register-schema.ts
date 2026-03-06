@@ -3,9 +3,11 @@ import { useTranslations } from "next-intl";
 
 type TranslationFn = ReturnType<typeof useTranslations>;
 
+const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*]).+$/;
+
 const baseSchema = z.object({
   email: z.string().trim().toLowerCase().min(1).email(),
-  password: z.string().min(6),
+  password: z.string().min(6).regex(passwordRegex),
   confirmPassword: z.string().min(6).max(72),
 });
 
@@ -23,7 +25,10 @@ export const getRegisterSchema = (t: TranslationFn) =>
       password: z
         .string()
         .min(6, { message: t("validation.passwordMin") })
-        .max(72, { message: t("validation.passwordMax") }),
+        .max(72, { message: t("validation.passwordMax") })
+        .regex(passwordRegex, {
+          message: t("validation.invalidPasswordFormat"),
+        }),
       confirmPassword: z
         .string()
         .min(6, { message: t("validation.passwordMin") })
