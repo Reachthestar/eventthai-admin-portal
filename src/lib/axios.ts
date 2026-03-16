@@ -1,4 +1,5 @@
 import axios from "axios";
+import { getAccessToken } from "./cookies";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 const HEADERS_KEY = process.env.NEXT_PUBLIC_REQRES_HEADERS_KEY;
@@ -12,6 +13,10 @@ const api = axios.create({
 
 api.interceptors.request.use(
   (config) => {
+    const token = getAccessToken();
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
     return config;
   },
   (error) => {
