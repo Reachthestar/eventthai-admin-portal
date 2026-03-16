@@ -1,10 +1,8 @@
 import { test, expect } from "@playwright/test";
 
 test.describe("Login Flow", () => {
-  // Hook นี้จะทำงานก่อนเริ่มแต่ละ Test Case เสมอ (เปิดหน้าเว็บมารอเลย)
   test.beforeEach(async ({ page }) => {
-    // สมมติว่ารันที่ localhost:3000 (ถ้าเซ็ต baseURL ใน playwright.config.ts ไว้แล้ว ใส่แค่ '/login' ได้เลย)
-    await page.goto("http://localhost:3000/login");
+    await page.goto("http://localhost:3000/en/login");
   });
 
   test("1. Check Zod Validation: When email and password are empty, it should show an error message", async ({

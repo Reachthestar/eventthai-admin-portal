@@ -64,7 +64,7 @@ export function EditUserModal({
         email: "",
       });
     }
-  }, [user, open, editUserReset]);
+  }, []);
 
   const handleOpenChange = (isOpen: boolean) => {
     onOpenChange(isOpen);

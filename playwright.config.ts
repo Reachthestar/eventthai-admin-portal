@@ -25,7 +25,7 @@ export default defineConfig({
 
     // Collect trace when retrying the failed test.
     trace: "on-first-retry",
-    locale: "en-US",
+    locale: "en",
   },
   // Configure projects for major browsers.
   projects: [
